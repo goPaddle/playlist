@@ -39,6 +39,11 @@
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>
                 <version>1.4.13</version>
+		<configuration>
+		  <containerId>jetty9x</containerId>
+		  <type>embedded</type>
+		  <containerUrl>http://download.eclipse.org/jetty/9.2.11.v20150529/dist/jetty-distribution-9.2.11.v20150529.zip</containerUrl>
+		</configuration>
                 <!--executions>
                     <execution>
                         <id>start-container</id>
@@ -52,14 +57,14 @@
 
             <!--Skip tests by default -->
 
-            <plugin>
+            <!--plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.16</version>
                 <configuration>
                     <skipTests>${skipTests}</skipTests>
                 </configuration>
-            </plugin>
+            </plugin-->
 
             <!--  Specify Java 7 for this project -->
             <plugin>
@@ -127,29 +132,17 @@
             <version>2.0.9.2</version>
         </dependency>
 
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-            <scope>provided</scope>
-        </dependency>
+	<dependency>
+	  <groupId>javax</groupId>
+	  <artifactId>javaee-web-api</artifactId>
+	  <version>7.0</version>
+	  <scope>provided</scope>
+	</dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <version>8.1.12.v20130726</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-jsp</artifactId>
-            <version>8.1.12.v20130726</version>
         </dependency>
 
         <dependency>
