@@ -43,7 +43,6 @@ public class TrackServlet extends HttpServlet {
         request.setAttribute("error", "Invalid Track Length");
         getServletContext().getRequestDispatcher("/add_track.jsp").forward(request,response);
         return;
-
       }
 
       //
