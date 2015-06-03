@@ -39,13 +39,18 @@ public class ArtistsDAO extends CassandraData {
     // Build a query. This is an example of executing a simple statement.
     //
 
-    String queryText = "SELECT * FROM artists_by_first_letter WHERE first_letter = '" + first_letter + "'";
+    String queryText = "SELECT * FROM artists_by_first_letter WHERE first_letter = ?";
+    if (desc) {
+      queryText.concat(" ORDER BY artist DESC");
+    } 
+    PreparedStatement preparedStatement = getSession().prepare(queryText);
+    BoundStatement boundStatement = preparedStatement.bind(first_letter);
 
     //
     // Obtain the results in a ResultSet object
     //
 
-    ResultSet results = getSession().execute(queryText);
+    ResultSet results = getSession().execute(boundStatement);
 
     //
     // Allocate an empty list of strings to return the artists
