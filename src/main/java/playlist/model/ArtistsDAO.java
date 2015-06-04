@@ -1,10 +1,14 @@
 package playlist.model;
 
+import com.datastax.driver.core.BoundStatement;
+import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * DataStax Academy Sample Application
@@ -14,6 +18,8 @@ import java.util.List;
  */
 
 public class ArtistsDAO extends CassandraData {
+
+  private static final Logger logger = Logger.getLogger(ArtistsDAO.class.getName());
 
   //
   // This class retrieves Artist names from the artist table in Cassandra
@@ -39,17 +45,15 @@ public class ArtistsDAO extends CassandraData {
     // Build a query. This is an example of executing a simple statement.
     //
 
-    String queryText = "SELECT * FROM artists_by_first_letter WHERE first_letter = '" + first_letter + "'"
+    String queryText = "SELECT * FROM artists_by_first_letter WHERE first_letter = ?" + (desc ? " ORDER BY artist DESC" : "");
+    PreparedStatement preparedStatement = getSession().prepare(queryText);
+    BoundStatement boundStatement = preparedStatement.bind(first_letter);
 
-    //
-    // Append an ORDER BY clause on to the statement if we want a descending order
-    //
-            + (desc ? " ORDER BY artist DESC" : "");
     //
     // Obtain the results in a ResultSet object
     //
 
-    ResultSet results = getSession().execute(queryText);
+    ResultSet results = getSession().execute(boundStatement);
 
     //
     // Allocate an empty list of strings to return the artists
