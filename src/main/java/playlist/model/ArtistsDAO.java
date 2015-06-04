@@ -45,13 +45,7 @@ public class ArtistsDAO extends CassandraData {
     // Build a query. This is an example of executing a simple statement.
     //
 
-    String queryText = "SELECT * FROM artists_by_first_letter WHERE first_letter = ?";
-    if (desc) {
-      logger.log(Level.INFO, "in the if conditional");
-      queryText.concat(" ORDER BY artist DESC");
-    } 
-    logger.log(Level.INFO, "desc is {0}", desc);
-    logger.log(Level.INFO, "Query string is {0}", queryText);
+    String queryText = "SELECT * FROM artists_by_first_letter WHERE first_letter = ?" + (desc ? " ORDER BY artist DESC" : "");
     PreparedStatement preparedStatement = getSession().prepare(queryText);
     BoundStatement boundStatement = preparedStatement.bind(first_letter);
 
