@@ -7,6 +7,8 @@ import com.datastax.driver.core.Row;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * DataStax Academy Sample Application
@@ -16,6 +18,8 @@ import java.util.List;
  */
 
 public class ArtistsDAO extends CassandraData {
+
+  private static final Logger logger = Logger.getLogger(ArtistsDAO.class.getName());
 
   //
   // This class retrieves Artist names from the artist table in Cassandra
@@ -45,6 +49,7 @@ public class ArtistsDAO extends CassandraData {
     if (desc) {
       queryText.concat(" ORDER BY artist DESC");
     } 
+    logger.log(Level.INFO, "Query string is {0}", queryText);
     PreparedStatement preparedStatement = getSession().prepare(queryText);
     BoundStatement boundStatement = preparedStatement.bind(first_letter);
 
