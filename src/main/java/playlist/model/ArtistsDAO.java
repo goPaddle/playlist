@@ -49,6 +49,7 @@ public class ArtistsDAO extends CassandraData {
     if (desc) {
       queryText.concat(" ORDER BY artist DESC");
     } 
+    logger.log(Level.INFO, "desc is {0}", desc);
     logger.log(Level.INFO, "Query string is {0}", queryText);
     PreparedStatement preparedStatement = getSession().prepare(queryText);
     BoundStatement boundStatement = preparedStatement.bind(first_letter);
