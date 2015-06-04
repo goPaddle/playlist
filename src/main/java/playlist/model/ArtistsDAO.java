@@ -47,6 +47,7 @@ public class ArtistsDAO extends CassandraData {
 
     String queryText = "SELECT * FROM artists_by_first_letter WHERE first_letter = ?";
     if (desc) {
+      logger.log(Level.INFO, "in the if conditional");
       queryText.concat(" ORDER BY artist DESC");
     } 
     logger.log(Level.INFO, "desc is {0}", desc);
