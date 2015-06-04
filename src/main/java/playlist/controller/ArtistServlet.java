@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.List;
 
 /**
@@ -18,6 +20,8 @@ import java.util.List;
 
 public class ArtistServlet extends HttpServlet {
 
+  private static final Logger logger = Logger.getLogger(ArtistServlet.class.getName());
+
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     String q = request.getParameter("q");
@@ -25,6 +29,7 @@ public class ArtistServlet extends HttpServlet {
     String frame = request.getParameter("frame");
 
     boolean desc = dir != null && dir.contentEquals("down");
+    logger.log(Level.INFO, "desc is {0}", desc);
 
     List<String> artists = null;
     if (q != null && !q.isEmpty()) {
