@@ -61,8 +61,10 @@ public class StatisticsDAO extends CassandraData {
 
   public static void increment_counter(String counter_name) {
 
-    String queryText = "UPDATE statistics set counter_value = counter_value + 1 where counter_name = '" + counter_name +"'";
-    getSession().execute(queryText);
+    String queryText = "UPDATE statistics set counter_value = counter_value + 1 where counter_name = ?";
+    PreparedStatement preparedStatement = getSession().prepare(queryText);
+    BoundStatement boundStatement = preparedStatement.bind(counter_name);
+    getSession().execute(boundStatement);
 
   }
 
@@ -75,8 +77,10 @@ public class StatisticsDAO extends CassandraData {
 
   public static void decrement_counter(String counter_name) {
 
-    String queryText = "UPDATE statistics set counter_value = counter_value - 1 where counter_name = '" + counter_name +"'";
-    getSession().execute(queryText);
+    String queryText = "UPDATE statistics set counter_value = counter_value - 1 where counter_name = ?";
+    PreparedStatement preparedStatement = getSession().prepare(queryText);
+    BoundStatement boundStatement = preparedStatement.bind(counter_name);
+    getSession().execute(boundStatement);
 
   }
 

@@ -74,12 +74,13 @@ public class UserDAO extends CassandraData {
    * Delete the user.  It does not need to check if the user already exists.
    */
   public void deleteUser() {
-    SimpleStatement simpleStatement = new SimpleStatement("DELETE FROM users where username = '"
-            + this.username + "'");
+    String queryText = "DELETE FROM users where username = ?";
+    PreparedStatement preparedStatement = getSession().prepare(queryText);
+    BoundStatement boundStatement = preparedStatement.bind(username);
 
     // Delete users with CL = Quorum
-    simpleStatement.setConsistencyLevel(ConsistencyLevel.QUORUM);
-    getSession().execute(simpleStatement);
+    boundStatement.setConsistencyLevel(ConsistencyLevel.QUORUM);
+    getSession().execute(boundStatement);
 
   }
 
@@ -91,10 +92,11 @@ public class UserDAO extends CassandraData {
    * @return  A full UserDAO object
    */
   public static UserDAO getUser(String username) {
-    String queryText = "SELECT * FROM users where username = '"
-            + username + "'";
+    String queryText = "SELECT * FROM users where username = ?";
+    PreparedStatement preparedStatement = getSession().prepare(queryText);
+    BoundStatement boundStatement = preparedStatement.bind(username);
 
-    Row userRow = getSession().execute(queryText).one();
+    Row userRow = getSession().execute(boundStatement).one();
 
     if (userRow == null) {
       return null;
@@ -111,12 +113,12 @@ public class UserDAO extends CassandraData {
    */
   private static UserDAO getUserWithQuorum(String username) {
 
-    String queryText = "SELECT * FROM users where username = '"
+    String queryText = "SELECT * FROM users where username = ?";
             + username + "'";
-
-    SimpleStatement simpleStatement = new SimpleStatement(queryText);
-    simpleStatement.setConsistencyLevel(ConsistencyLevel.QUORUM);
-    Row userRow = getSession().execute(simpleStatement).one();
+    PreparedStatement preparedStatement = getSession().prepare(queryText);
+    BoundStatement boundStatement = preparedStatement.bind(username);
+    boundStatement.setConsistencyLevel(ConsistencyLevel.QUORUM);
+    Row userRow = getSession().execute(boundStatement).one();
 
     if (userRow == null) {
       return null;
