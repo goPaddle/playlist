@@ -34,7 +34,6 @@ public class TracksDAO extends CassandraData {
    * @param row - a single Cassandra Java Driver Row
    *
    */
-
   private TracksDAO(Row row) {
     track_id = row.getUUID("track_id");
     artist = row.getString("artist");
@@ -44,6 +43,16 @@ public class TracksDAO extends CassandraData {
     track_length_in_seconds = row.getInt("track_length_in_seconds");
   }
 
+  /**
+   * Constructor to create a TracksDAO object when given attribute data.
+   *
+   * @param artists - The artist name
+   * @param track - The track name
+   * @param genre - The musical genre of the track
+   * @param music_file - The digital music file name for the track
+   * @param track_length_in_seconds - The lenght of the track in seconds
+   *
+   */
   public TracksDAO(String artist, String track, String genre, String music_file, int track_length_in_seconds) {
     this.track_id = UUID.randomUUID();  // We can generate the new UUID right here in the constructor
     this.artist = artist;
@@ -97,14 +106,21 @@ public class TracksDAO extends CassandraData {
     // Compute the first letter of the artists name for the artists_by_first_letter table
     String artist_first_letter = this.artist.substring(0,1).toUpperCase();
 
+    // insert into artists_by_first_letter
     PreparedStatement preparedStatement =
             getSession().prepare("INSERT INTO artists_by_first_letter (first_letter, artist) VALUES (?, ?)");
     BoundStatement boundStatement = preparedStatement.bind(artist_first_letter, this.artist);
     getSession().execute(boundStatement);
 
+    // insert into track_by_artist
     preparedStatement = getSession().prepare("INSERT INTO track_by_artist (genre, track_id, artist, track, track_length_in_seconds) VALUES (?, ?, ?, ?, ?)");
     boundStatement = preparedStatement.bind(this.genre, this.track_id, this.artist, this.track, this.track_length_in_seconds);
     getSession().execute(boundStatement);
+
+    // insert into track_by_genre
+    preparedStatement = getSession().prepare("INSERT INTO track_by_genre (genre, track_id, artist, track, track_length_in_seconds) VALUES (?, ?, ?, ?, ?)");
+    boundStatement = preparedStatement.bind(this.genre, this.track_id, this.artist, this.track, this.track_length_in_seconds);
+    getSession.execute(boundStatement);
 
   }
 
