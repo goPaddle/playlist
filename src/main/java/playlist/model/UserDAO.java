@@ -114,7 +114,6 @@ public class UserDAO extends CassandraData {
   private static UserDAO getUserWithQuorum(String username) {
 
     String queryText = "SELECT * FROM users where username = ?";
-            + username + "'";
     PreparedStatement preparedStatement = getSession().prepare(queryText);
     BoundStatement boundStatement = preparedStatement.bind(username);
     boundStatement.setConsistencyLevel(ConsistencyLevel.QUORUM);
