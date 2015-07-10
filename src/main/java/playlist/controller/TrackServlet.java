@@ -27,6 +27,7 @@ public class TrackServlet extends HttpServlet {
     String track_name = request.getParameter("track_name");
     String genre = request.getParameter("genre");
     String music_file = request.getParameter("music_file");
+    String howmany = request.getParameter("howmany");
     String star = request.getParameter("star");
 
     if (star != null) {
