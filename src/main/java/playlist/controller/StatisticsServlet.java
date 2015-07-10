@@ -1,6 +1,5 @@
 package playlist.controller;
 
-import playlist.model.CassandraInfo;
 import playlist.model.StatisticsDAO;
 
 import javax.servlet.ServletException;
@@ -8,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * DataStax Academy Sample Application
@@ -16,18 +16,15 @@ import java.io.IOException;
  *
  */
 
-public class HomeServlet extends HttpServlet {
+public class StatisticsServlet extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    StatisticsDAO.increment_counter("page hits: home");
 
-    String javaVersion = System.getProperty("java.version");
-    CassandraInfo cassandraInfo = new CassandraInfo();
+    List<StatisticsDAO> statistics = StatisticsDAO.getStatistics();
 
-    request.setAttribute("java_version", javaVersion);
-    request.setAttribute("cassandra_info", cassandraInfo);
-    getServletContext().getRequestDispatcher("/home.jsp").forward(request,response);
+    request.setAttribute("statistics", statistics);
+    getServletContext().getRequestDispatcher("/statistics.jsp").forward(request,response);
 
   }
 }

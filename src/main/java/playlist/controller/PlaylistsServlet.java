@@ -1,6 +1,7 @@
 package playlist.controller;
 
 import playlist.model.PlaylistDAO;
+import playlist.model.StatisticsDAO;
 import playlist.model.UserDAO;
 
 import javax.servlet.ServletException;
@@ -70,6 +71,8 @@ public class PlaylistsServlet extends HttpServlet {
   }
 
   private void doAddPlaylist(UserDAO user, String playlistName) {
+
+    StatisticsDAO.increment_counter("playlists");
 
     PlaylistDAO.createPlayList(user, playlistName);
   }

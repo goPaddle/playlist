@@ -78,6 +78,11 @@
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>StatisticsServlet</servlet-name>
+        <url-pattern>/stats</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>AddTrackServlet</servlet-name>
         <jsp-file>/add_track.jsp</jsp-file>
