@@ -9,12 +9,11 @@ Building and running on Unix
 2. Install Maven.
 
 3. Build the project dependencies from the playlist directory by typing:
+
 	mvn validate
 
-4. To run it, cd to the target directory
-
-run the main class:
+4. To run playlist:
 
     mvn verify cargo:run
 
-5. Visit the application at `http://localhost:8080/playlist`
+5. Visit the application at: `http://localhost:8080/playlist`
