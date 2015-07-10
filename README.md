@@ -9,6 +9,7 @@ Building and running on Unix
 2. Install Maven.
 
 3. Build the project dependencies from the playlist directory by typing:
+
 	mvn validate
 
 4. Set up the database:
