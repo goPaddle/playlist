@@ -27,6 +27,7 @@ public class TracksDAO extends CassandraData {
   private final String genre;
   private final String music_file;
   private final int track_length_in_seconds;
+  private Boolean starred;
 
   /**
    * Constructor to create a TracksDAO object when given a single Cassandra Row object
@@ -41,6 +42,11 @@ public class TracksDAO extends CassandraData {
     genre = row.getString("genre");
     music_file = row.getString("music_file");
     track_length_in_seconds = row.getInt("track_length_in_seconds");
+    try {
+      starred = row.getBool("starred");
+    } catch (Exception e) {
+      starred = false;  // If the field doesn't exist or is null we set it to false
+    }
   }
 
   /**
@@ -60,6 +66,7 @@ public class TracksDAO extends CassandraData {
     this.genre = genre;
     this.music_file = music_file;
     this.track_length_in_seconds = track_length_in_seconds;
+    this.starred = false;
   }
 
   // Static finder method
@@ -122,8 +129,39 @@ public class TracksDAO extends CassandraData {
     boundStatement = preparedStatement.bind(this.genre, this.track_id, this.artist, this.track, this.track_length_in_seconds);
     getSession.execute(boundStatement);
 
+    preparedStatement = getSession().prepare("INSERT INTO track_by_id (genre, track_id, artist, track, track_length_in_seconds) VALUES (?, ?, ?, ?, ?)");
+    boundStatement = preparedStatement.bind(this.genre, this.track_id, this.artist, this.track, this.track_length_in_seconds);
+    getSession().execute(boundStatement);
+
   }
 
+  /**
+   * Mark the track as being a hot track for 60 seconds
+   */
+  public void star() {
+
+    PreparedStatement preparedStatement = getSession().prepare("UPDATE track_by_artist  USING TTL 60 SET starred = true where artist = ? and track = ? and track_id = ?");
+    BoundStatement boundStatement = preparedStatement.bind(artist, track, track_id);
+    getSession().execute(boundStatement);
+
+    preparedStatement = getSession().prepare("UPDATE track_by_genre  USING TTL 60 SET starred = true where genre = ? and artist = ? and track = ? and track_id = ?");
+    boundStatement = preparedStatement.bind(genre, artist, track, track_id);
+    getSession().execute(boundStatement);
+  }
+
+  // finder method for making starred tracks
+  public static TracksDAO getTrackById(UUID track_id) {
+    PreparedStatement preparedStatement = getSession().prepare("SELECT * FROM track_by_id WHERE track_id = ?");
+    BoundStatement boundStatement = preparedStatement.bind(track_id);
+    ResultSet resultSet = getSession().execute(boundStatement);
+
+    // Return null if there is no track found
+    if (resultSet.isExhausted()) {
+      return null;
+    }
+
+    return new TracksDAO(resultSet.one());
+  }
 
   public UUID getTrack_id() {
     return track_id;
