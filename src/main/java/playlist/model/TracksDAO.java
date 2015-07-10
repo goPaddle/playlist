@@ -186,4 +186,8 @@ public class TracksDAO extends CassandraData {
   public int getTrack_length_in_seconds() {
     return track_length_in_seconds;
   }
+
+  public Boolean getStarred() {
+    return starred;
+  }
 }
