@@ -92,6 +92,7 @@ public class TracksDAO extends CassandraData {
     String queryText = "SELECT * FROM track_by_genre WHERE genre = ?";
     PreparedStatement preparedStatement = getSession().prepare(queryText);
     BoundStatement boundStatement = preparedStatement.bind(genre);
+    boundStatement.setFetchSize(200);
     ResultSet results = getSession().execute(boundStatement);
 
 
