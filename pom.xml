@@ -34,9 +34,8 @@
                 <configuration>
                     <containerId>jetty9x</containerId>
                     <type>embedded</type>
-                    <containerUrl>http://download.eclipse.org/jetty/9.2.11.v20150529/dist/jetty-distribution-9.2.11.v20150529.zip</containerUrl>
+                    <containerUrl>http://download.eclipse.org/jetty/9.2.13.v20150730/dist/jetty-distribution-9.2.13.v20150730.zip</containerUrl>
                 </configuration>
-                <!--executions><execution><id>start-container</id><phase>pre-integration-test</phase><goals><goal>start</goal></goals></execution></executions-->
             </plugin>
             <!--Skip tests by default -->
             <!--plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>2.16</version><configuration><skipTests>${skipTests}</skipTests></configuration></plugin-->
