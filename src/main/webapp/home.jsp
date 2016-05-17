@@ -23,7 +23,7 @@ Copyright 2013 DataStax
 	<header>
 		<h1>Playlist</h1>
 		<img class="dim" src="images/favicon.png"/>
-		Welcome to the playlist application. <br/>
+		Welcome to the playlist application from goPaddle. <br/>
 		Java version: ${java_version} <br/>
 		Cassandra version: ${cassandra_info.cassandraVersion} <br/>
 		Cluster name: ${cassandra_info.clusterName}
@@ -32,7 +32,7 @@ Copyright 2013 DataStax
 	<section class="menu">
 		<h1>Places to Go:</h1>
 		<nav>
-			<a href="playlists">My Playlists</a>
+			<a href="playlists">My Playlists*</a>
 			<a href="tracks">Visit the Song Database</a>
 			<a href="stats">Statistics</a>
 		</nav>
